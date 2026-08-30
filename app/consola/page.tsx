@@ -52,9 +52,9 @@ export default function ConsolaPage() {
   return (
     <div className="space-y-8">
       <PageHeading
+        emoji="🎮"
         title="Consola de Mando & Despacho de Órdenes"
         subtitle="Usted habla con Lorenzo (CEO) y el sistema analiza, descompone y delega a los 8 directores especialistas de forma automática."
-        badge="Live Routing"
       />
 
       <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl shadow-2xl">
