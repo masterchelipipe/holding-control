@@ -338,3 +338,148 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+export function agentById(id: string): Agent | undefined {
+  return agents.find((a) => a.id.toLowerCase() === id.toLowerCase());
+}
+
+export interface DispatchStage {
+  agentId: string;
+  agentName: string;
+  agentEmoji: string;
+  action: string;
+  detail: string;
+  deliverable: string;
+  estimatedCost: string;
+}
+
+export interface DispatchResult {
+  detectedProject: string;
+  intent: string;
+  leadAgent: string;
+  stages: DispatchStage[];
+  supervisorCheck: string;
+  summary: string;
+}
+
+export function simulateDispatch(prompt: string): DispatchResult {
+  const p = prompt.toLowerCase();
+
+  if (p.includes("trading") || p.includes("alpaca") || p.includes("overnight") || p.includes("cornejo") || p.includes("acciones")) {
+    return {
+      detectedProject: "TradeX — Trading Cuantitativo",
+      intent: "Optimización de estrategia algorítmica y control de riesgo",
+      leadAgent: "Matías 📈",
+      stages: [
+        {
+          agentId: "matias",
+          agentName: "Matías",
+          agentEmoji: "📈",
+          action: "Ejecución Cuantitativa",
+          detail: "Descarga de datos reales, cálculo de momentum técnico y colocación de Stops.",
+          deliverable: "Órdenes calculadas y auditadas en Paper/Real",
+          estimatedCost: "$0.0002 USD",
+        },
+        {
+          agentId: "felipe",
+          agentName: "Felipe",
+          agentEmoji: "📊",
+          action: "Auditoría Tributaria SII",
+          detail: "Conversión a Dólar Observado y cálculo de provisión F22 / DJ 1929.",
+          deliverable: "Registro en tributario_sii.py",
+          estimatedCost: "$0.0001 USD",
+        },
+      ],
+      supervisorCheck: "Harness: Confirmados Stops al 5% GTC y 3% DAY sin violaciones de margen.",
+      summary: "Estrategia ruteada a Matías y auditada por Felipe.",
+    };
+  }
+
+  if (p.includes("scrap") || p.includes("buscar") || p.includes("licitacion") || p.includes("chilecompra") || p.includes("mercado publico") || p.includes("proveedor")) {
+    return {
+      detectedProject: "Inteligencia de Mercado & Scraping",
+      intent: "Extracción y análisis de datos externos / licitaciones",
+      leadAgent: "Bruno 🕵️",
+      stages: [
+        {
+          agentId: "bruno",
+          agentName: "Bruno",
+          agentEmoji: "🕵️",
+          action: "Extracción Stealth con Scrapling",
+          detail: "Crawling seguro de portales, bypass de Cloudflare y recopilación de datos.",
+          deliverable: "Dataset estructurado JSON / CSV",
+          estimatedCost: "$0.0003 USD",
+        },
+        {
+          agentId: "camila",
+          agentName: "Camila",
+          agentEmoji: "🎨",
+          action: "Visualización UI/UX",
+          detail: "Creación de tabla responsiva con filtros rápidos de búsqueda.",
+          deliverable: "Vista web integrada",
+          estimatedCost: "$0.0002 USD",
+        },
+      ],
+      supervisorCheck: "Harness: Validación de esquema JSON y cero duplicados.",
+      summary: "Extracción delegada a Bruno con visualización de Camila.",
+    };
+  }
+
+  if (p.includes("radier") || p.includes("hormigon") || p.includes("terranova") || p.includes("pavimento") || p.includes("obra") || p.includes("presupuesto")) {
+    return {
+      detectedProject: "Terranova — Obras & Pavimentos",
+      intent: "Cubicación técnica, presupuesto y campaña publicitaria",
+      leadAgent: "Rodrigo 🏗️",
+      stages: [
+        {
+          agentId: "rodrigo",
+          agentName: "Rodrigo",
+          agentEmoji: "🏗️",
+          action: "Ingeniería & Cubicación",
+          detail: "Cálculo de m³, dosificación H20/H25, espesores y plazos 72h.",
+          deliverable: "Ficha técnica de faena",
+          estimatedCost: "$0.0002 USD",
+        },
+        {
+          agentId: "valentina",
+          agentName: "Valentina",
+          agentEmoji: "📣",
+          action: "Campaña Publicitaria",
+          detail: "Redacción de copys persuasivos y montaje de reel con fotos reales.",
+          deliverable: "Video vertical 9:16 + Campaña Google/Meta Ads",
+          estimatedCost: "$0.0003 USD",
+        },
+      ],
+      supervisorCheck: "Harness: Parámetros técnicos contrastados con normativa OGUC.",
+      summary: "Especificación técnica de Rodrigo entregada a Valentina para marketing.",
+    };
+  }
+
+  return {
+    detectedProject: "MasterRent SpA / Obra Control",
+    intent: "Desarrollo de software y arquitectura Fullstack",
+    leadAgent: "Lucas 💻",
+    stages: [
+      {
+        agentId: "lucas",
+        agentName: "Lucas",
+        agentEmoji: "💻",
+        action: "Backend & Base de Datos",
+        detail: "Modelado Prisma, endpoints REST y conexión a PostgreSQL en Neon.",
+        deliverable: "APIs y migraciones listas",
+        estimatedCost: "$0.0003 USD",
+      },
+      {
+        agentId: "camila",
+        agentName: "Camila",
+        agentEmoji: "🎨",
+        action: "Frontend & UI/UX Design",
+        detail: "Diseño de componentes Next.js 14 con Tailwind CSS responsivo.",
+        deliverable: "Vistas interactivas de alta velocidad",
+        estimatedCost: "$0.0002 USD",
+      },
+    ],
+    supervisorCheck: "Harness: Type-check npx tsc sin errores y build verificado.",
+    summary: "Desarrollo coordinado entre Lucas (Backend) y Camila (Frontend UI/UX).",
+  };
+}
