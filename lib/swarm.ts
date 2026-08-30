@@ -1,10 +1,8 @@
-// Nexus Multi-Agent Swarm data layer for "Holding Control".
-
-export type AgentStatus = "active" | "idle" | "standby";
+export type AgentStatus = "active" | "busy" | "standby";
 
 export interface Channel {
   name: string;
-  kind: string;
+  kind: "chat" | "webhook" | "db" | "portals" | "worksheets" | "social" | "market";
   connected: boolean;
 }
 
@@ -34,7 +32,7 @@ export const agents: Agent[] = [
     coreSkills: ["Estrategia", "Task Decomposition", "Orquestación", "Reportes"],
     responsibilities: [
       "Descompone órdenes de Don Gonzalo en deliverable accionables",
-      "Coordina a los 6 agentes del swarm",
+      "Coordina a los 8 agentes del swarm",
       "Consolida informes ejecutivos diarios",
     ],
     projects: ["Swarm completo", "Consolidado Holding"],
@@ -44,21 +42,60 @@ export const agents: Agent[] = [
     id: "lucas",
     name: "Lucas",
     emoji: "💻",
-    role: "CTO & Lead Engineer",
+    role: "Backend & Cloud Architect",
     color: "cyan",
-    tagline: "Next.js 14 · TypeScript · Prisma · Neon DB · Webhooks · APIs.",
+    tagline: "PostgreSQL · Prisma ORM · APIs REST · Linux Server · DTE SII.",
     status: "active",
-    coreSkills: ["Next.js 14", "TypeScript", "Prisma", "Neon DB", "Webhooks"],
+    coreSkills: ["PostgreSQL", "Prisma ORM", "Neon DB", "APIs & Webhooks", "DTE SII"],
     responsibilities: [
-      "Mantiene MasterRent app (Next.js + Prisma + Neon)",
-      "Mantiene TradeX panel de trading",
-      "Mantiene Terranova Web y futura Obra Control / Matex",
-      "Integra APIs y webhooks",
+      "Mantiene backend de MasterRent, TradeX y Terranova",
+      "Arquitectura de base de datos y migraciones seguras",
+      "Integra APIs de facturación y pagos",
     ],
-    projects: ["MasterRent", "TradeX", "Terranova Web", "Obra Control"],
+    projects: ["MasterRent", "TradeX", "Obra Control", "Terranova Web"],
     connectedChannels: [
-      { name: "API MasterRent", kind: "webhook", connected: true },
       { name: "Neon DB", kind: "db", connected: true },
+      { name: "Servidores Linux", kind: "webhook", connected: true },
+    ],
+  },
+  {
+    id: "camila",
+    name: "Camila",
+    emoji: "🎨",
+    role: "Lead Frontend & UI/UX Designer",
+    color: "pink",
+    tagline: "Next.js 14 · Tailwind CSS · UI/UX Mobile First · Framer Motion.",
+    status: "active",
+    coreSkills: ["Next.js 14", "Tailwind CSS", "UI/UX Design", "Framer Motion", "Dashboard UI"],
+    responsibilities: [
+      "Diseño de interfaces visuales de alto impacto y velocidad",
+      "Experiencia de usuario fluida para clientes y administradores",
+      "Componentes responsivos y accesibles para web y mobile",
+    ],
+    projects: ["Holding Control", "MasterRent App", "TradeX", "Terranova Web"],
+    connectedChannels: [
+      { name: "Vercel UI", kind: "webhook", connected: true },
+      { name: "Design System", kind: "worksheets", connected: true },
+    ],
+  },
+  {
+    id: "bruno",
+    name: "Bruno",
+    emoji: "🕵️",
+    role: "Head of OSINT, Web Scraping & Research",
+    color: "indigo",
+    tagline: "Scrapling · Bypass Cloudflare · Mercado Público · Búsqueda Profunda.",
+    status: "active",
+    coreSkills: ["Scrapling", "Stealth Scraping", "Bypass Cloudflare", "Mercado Público", "OSINT"],
+    responsibilities: [
+      "Extracción automatizada de datos de proveedores, precios y licitaciones",
+      "Búsqueda profunda de información técnica y financiera",
+      "Bypass seguro de protecciones antibot y recopilación limpia",
+    ],
+    projects: ["Mercado Público / ChileCompra", "Scraping Precios", "Radar Financiero"],
+    connectedChannels: [
+      { name: "Mercado Público", kind: "portals", connected: true },
+      { name: "Web Crawlers", kind: "market", connected: true },
     ],
   },
   {
@@ -75,7 +112,7 @@ export const agents: Agent[] = [
       "Estructuración societaria (SpA)",
       "Planificación financiera y flujo de caja",
     ],
-    projects: ["MasterRent SpA", "Consolidado Holding"],
+    projects: ["MasterRent SpA", "Consolidado Holding", "Tributario TradeX"],
     connectedChannels: [
       { name: "SII", kind: "portals", connected: true },
       { name: "Contabilidad", kind: "worksheets", connected: true },
@@ -89,16 +126,16 @@ export const agents: Agent[] = [
     color: "purple",
     tagline: "Alpaca API · Overnight Tech/IA · Core Long · Filtro Cornejo.",
     status: "active",
-    coreSkills: ["Alpaca API", "Overnight Gap", "Core Long", "Filtro Cornejo", "Risk"],
+    coreSkills: ["Alpaca API", "Overnight Tech/IA", "Core Long", "Filtro Cornejo", "Risk Control"],
     responsibilities: [
-      "Opera estrategia Overnight Tech/IA vía Alpaca",
-      "Posición Core Long de largo plazo",
-      "Control de riesgo en tiempo real (Filtro Cornejo)",
+      "Opera la estrategia Overnight Tech/IA y Core Long",
+      "Monitorea trailing stops al 5% y stops al 3%",
+      "Audita métricas de rendimiento y drawdown",
     ],
-    projects: ["TradeX", "Portafolio $100k"],
+    projects: ["TradeX", "Alpaca Portfolio"],
     connectedChannels: [
-      { name: "Alpaca", kind: "api", connected: true },
-      { name: "Market Data", kind: "feed", connected: true },
+      { name: "Alpaca Markets", kind: "market", connected: true },
+      { name: "Yahoo Finance API", kind: "market", connected: true },
     ],
   },
   {
@@ -106,19 +143,19 @@ export const agents: Agent[] = [
     name: "Valentina",
     emoji: "📣",
     role: "CMO & Growth/Media Director",
-    color: "pink",
-    tagline: "Google Ads · Meta Ads · Video AI Reels · SEO · Copywriting.",
+    color: "rose",
+    tagline: "Google Ads · Meta Ads · Producción Video Reels · Copywriting · SEO.",
     status: "active",
-    coreSkills: ["Google Ads", "Meta Ads", "Video AI Reels", "SEO", "Copywriting"],
+    coreSkills: ["Google Ads", "Meta Ads", "Video Reels", "Copywriting", "SEO Local"],
     responsibilities: [
-      "Campañas de Google Ads y Meta Ads",
-      "Generación de reels con video AI",
-      "SEO y copywriting para las marcas del holding",
+      "Pauta digital de Terranova y MasterRent",
+      "Generación de videos publicitarios y copys comerciales",
+      "Posicionamiento SEO en Google Maps y web",
     ],
-    projects: ["Terranova", "MasterRent", "Consolidado Holding"],
+    projects: ["Terranova Obras", "MasterRent SpA", "Videos Redes"],
     connectedChannels: [
-      { name: "Google Ads", kind: "ads", connected: true },
-      { name: "Meta Ads", kind: "ads", connected: true },
+      { name: "Google Ads", kind: "social", connected: true },
+      { name: "Meta Business", kind: "social", connected: true },
     ],
   },
   {
@@ -127,18 +164,18 @@ export const agents: Agent[] = [
     emoji: "🏗️",
     role: "COO & Lead Civil Engineer",
     color: "orange",
-    tagline: "Obras civiles, dosificación de hormigón, radieres y cubicaciones.",
+    tagline: "Obras civiles · Radieres y pavimentos · Dosificación H20/H25 · Flota.",
     status: "active",
-    coreSkills: ["Obras Civiles", "Hormigón", "Radieres", "Cubicaciones", "MasterRent Ops"],
+    coreSkills: ["Hormigón H20/H25", "Pavimentación", "Cubicaciones", "MasterRent Ops", "OGUC"],
     responsibilities: [
-      "Supervisa obras civiles y dosificación de hormigón",
-      "Cubicaciones y radieres",
-      "Operaciones MasterRent (arriendos de herramientas)",
+      "Especificaciones técnicas de pavimentos y radieres",
+      "Control de tiempos (72h), compactación y cotas milimétricas",
+      "Supervisión operativa de equipos MasterRent",
     ],
-    projects: ["Terranova Obras", "Obra Control", "MasterRent Ops"],
+    projects: ["Terranova Obras", "MasterRent Ops", "Obra Control"],
     connectedChannels: [
-      { name: "Bitácora Obra", kind: "log", connected: true },
-      { name: "MasterRent Ops", kind: "ops", connected: true },
+      { name: "Faenas Terreno", kind: "chat", connected: true },
+      { name: "Bodega Hualpén", kind: "webhook", connected: true },
     ],
   },
 ];
@@ -173,7 +210,7 @@ export const debates: Debate[] = [
   },
   {
     id: "d2",
-    title: "Reel AI del radier: copy + proofing",
+    title: "Reel publicitario del radier: copy + proofing",
     topic: "Producción del reel de marketing del proyecto de radieres.",
     status: "en curso",
     participants: ["valentina", "rodrigo"],
@@ -188,32 +225,17 @@ export const debates: Debate[] = [
   },
   {
     id: "d3",
-    title: "Despliegue de MasterRent a producción",
-    topic: "App Web de arriendos + generación DTE (SII).",
-    status: "cerrado",
-    participants: ["lucas", "felipe"],
-    participantsEmoji: ["💻", "📊"],
-    timestamp: "hace 1 día",
-    summary:
-      "Lucas desplegó la nueva iteración de MasterRent en Vercel y conectó webhooks; Felipe validó el flujo de Documentos Tributarios Electrónicos antes del go-live.",
-    insights: [
-      "DTE emitidos en ambiente de certificación.",
-      "Backup de inventario previo al corte.",
-    ],
-  },
-  {
-    id: "d4",
-    title: "Estrategia Core Long para el trimestre",
-    topic: "Composición y sizing de la posición núcleo de largo plazo.",
+    title: "Nueva UI/UX y Web Scraping de Licitaciones",
+    topic: "Integración de scrapping de Mercado Público en el dashboard con diseño de Camila.",
     status: "en curso",
-    participants: ["matias", "lorenzo"],
-    participantsEmoji: ["📈", "👑"],
-    timestamp: "hace 3 h",
+    participants: ["camila", "bruno", "lucas"],
+    participantsEmoji: ["🎨", "🕵️", "💻"],
+    timestamp: "hace 20 min",
     summary:
-      "Matías propuso rebalancear el Core Long en tecnología/IA; Lorenzo enrutó el análisis para validación de riesgo y dio visibilidad al plan en el consolidado diario.",
+      "Bruno montó el spider de ChileCompra y Lucas lo conectó a la base de datos; Camila diseñó la vista responsiva con filtros rápidos.",
     insights: [
-      "Mantener <15% del capital en un solo ticker.",
-      "Revisar semanalmente el Filtro Cornejo.",
+      "Alertas automáticas en menos de 5 segundos.",
+      "UI limpia y sin recargas innecesarias.",
     ],
   },
 ];
@@ -244,7 +266,7 @@ export const projects: Project[] = [
     agents: [
       { id: "rodrigo", emoji: "🏗️" },
       { id: "valentina", emoji: "📣" },
-      { id: "lucas", emoji: "💻" },
+      { id: "camila", emoji: "🎨" },
     ],
     modules: [
       { name: "Web", state: "operativo" },
@@ -263,6 +285,7 @@ export const projects: Project[] = [
     progress: 85,
     agents: [
       { id: "lucas", emoji: "💻" },
+      { id: "camila", emoji: "🎨" },
       { id: "felipe", emoji: "📊" },
       { id: "rodrigo", emoji: "🏗️" },
     ],
@@ -294,116 +317,24 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: "obracontrol",
+    id: "obra-control",
     name: "Obra Control",
-    emoji: "🏗️",
-    company: "Matex · Futuro ERP de Obras",
-    status: "Planificado",
+    emoji: "📋",
+    company: "Matex",
+    status: "En desarrollo",
     color: "emerald",
-    description: "Futuro ERP de gestión integral de obras y cubicaciones para el holding.",
-    progress: 15,
+    description: "ERP SaaS para constructoras: control de avances, cubicaciones y bitácoras.",
+    progress: 25,
     agents: [
-      { id: "rodrigo", emoji: "🏗️" },
       { id: "lucas", emoji: "💻" },
-      { id: "lorenzo", emoji: "👑" },
+      { id: "camila", emoji: "🎨" },
+      { id: "rodrigo", emoji: "🏗️" },
+      { id: "bruno", emoji: "🕵️" },
     ],
     modules: [
-      { name: "Cubicaciones", state: "en progreso" },
-      { name: "Dosificación", state: "backlog" },
-      { name: "ERP Obras", state: "backlog" },
+      { name: "Arquitectura BD", state: "operativo" },
+      { name: "Módulo Cubicaciones", state: "en progreso" },
+      { name: "Bitácora Digital", state: "backlog" },
     ],
   },
 ];
-
-// --- Dispatch simulation -----------------------------------------------------
-
-const agentIdToKey = (id: string) => agents.find((a) => a.id === id);
-
-export type DispatchStage =
-  | "recepción"
-  | "análisis"
-  | "descomposición"
-  | "delegación"
-  | "ejecución"
-  | "reporte";
-
-export interface DispatchNode {
-  agentId: string;
-  emoji: string;
-  task: string;
-  status: "asignado" | "en progreso" | "completado";
-}
-
-export interface DispatchResult {
-  command: string;
-  receivedAt: string;
-  orchestrator: string;
-  summary: string;
-  decomposition: string[];
-  stages: { name: DispatchStage; description: string }[];
-  assignments: DispatchNode[];
-}
-
-export function simulateDispatch(prompt: string): DispatchResult {
-  const p = prompt.trim();
-  const lower = p.toLowerCase();
-
-  const matched: DispatchNode[] = [];
-
-  const maybe = (id: string, keywords: string[], task: string) => {
-    if (keywords.some((k) => lower.includes(k))) {
-      matched.push({ agentId: id, emoji: agentIdToKey(id)?.emoji ?? "⚙️", task, status: "asignado" });
-    }
-  };
-
-  maybe("lucas", ["app", "código", "desarrollo", "web", "api", "base de datos", "deploy", "bug"], "Implementar/ajustar desarrollo y desplegar.");
-  maybe("felipe", ["impuesto", "tribut", "f22", "sii", "cash", "flujo", "gasto", "factura", "dte"], "Revisar impacto tributario y planificación financiera.");
-  maybe("matias", ["invertir", "trading", "accion", "stock", "alpaca", "portfolio", "ibkr", "trade", "compra"], "Evaluar oportunidad de trading y controlar riesgo.");
-  maybe("valentina", ["marketing", "ads", "publicidad", "seo", "copy", "reel", "video", "ventas", "campaña"], "Diseñar campaña, copy y producción de contenido.");
-  maybe("rodrigo", ["radie", "hormigon", "obra", "construc", "cubicacion", "dosificacion", "cimento", "cotizacion obra"], "Preparar cubicación/dosificación y supervisión de obra.");
-
-  const crisisRisk = /urgente|critico|hoy|inmediato|problema/.test(lower);
-
-  if (matched.length === 0) {
-    matched.push({
-      agentId: "lorenzo",
-      emoji: "👑",
-      task: "Consolidar la orden, coordinar al swarm y preparar reporte ejecutivo.",
-      status: "en progreso",
-    });
-  }
-
-  const decomposition = [
-    "Clasificar la petición por dominio (operaciones / finanzas / tecnología / comercial).",
-    "Identificar agentes responsables primarios y de soporte.",
-    "Definir entregables, dependencias y plazos.",
-    "Empaquetar un reporte consolidado para Don Gonzalo.",
-  ];
-
-  const stages: { name: DispatchStage; description: string }[] = [
-    { name: "recepción", description: "Capturar la orden desde la Consola de Mando." },
-    { name: "análisis", description: "Lorenzo interpreta la intención y límites de la petición." },
-    { name: "descomposición", description: "Fragmentar en tareas accionables y secuenciables." },
-    { name: "delegación", description: `${matched.length} agente(s) asignado(s).` },
-    { name: "ejecución", description: "Cada agente ejecuta su rol con sus canales conectados." },
-    { name: "reporte", description: "Lorenzo consolida resultados y emite informe." },
-  ];
-
-  const summary = crisisRisk
-    ? `Orden marcada como ${"URGENTE"}: ${matched.length} agente(s) activado(s). Lorenzo prioriza el flujo y solicita reporte inmediato a Don Gonzalo.`
-    : `${matched.length} agente(s) recibieron tareas. Lorenzo (@lorenzo) lidera la descomposición y consolidación del reporte.`;
-
-  return {
-    command: p,
-    receivedAt: new Date().toISOString(),
-    orchestrator: "lorenzo",
-    summary,
-    decomposition,
-    stages,
-    assignments: matched,
-  };
-}
-
-export function agentById(id: string): Agent | undefined {
-  return agents.find((a) => a.id === id);
-}
