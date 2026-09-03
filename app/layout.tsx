@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
+import { agents } from "@/lib/swarm";
 
 export const metadata: Metadata = {
   title: "Holding Control · Nexus Swarm",
   description:
-    "Dashboard del equipo ejecutivo autónomo de Don Gonzalo: Lorenzo, Lucas, Felipe, Matías, Valentina y Rodrigo.",
+    "Dashboard del equipo ejecutivo autónomo de Don Gonzalo: pirámide Propietario → Lorenzo (CEO) → 5 divisiones → especialistas y subagentes.",
 };
 
 export default function RootLayout({
@@ -23,7 +24,8 @@ export default function RootLayout({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span>
                 Holding Control · Nexus Multi-Agent Swarm —{" "}
-                <span className="text-emerald-400">6 agentes activos</span>
+                <span className="text-emerald-400">{agents.length} agentes activos</span>{" "}
+                · <span className="text-gold-400">Don Gonzalo → Lorenzo</span>
               </span>
               <span className="font-mono">Desplegado por Don Gonzalo's Executive Team</span>
             </div>

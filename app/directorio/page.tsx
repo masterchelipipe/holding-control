@@ -1,8 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { AlertCircle, CheckCircle2, Lightbulb, MessageSquareText, MessagesSquare, Timer } from "lucide-react";
-import { debates, agents, type Debate } from "@/lib/swarm";
+import { useEffect, useMemo, useState } from "react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Lightbulb,
+  MessageSquareText,
+  MessagesSquare,
+  Radio,
+  Timer,
+} from "lucide-react";
+import { debates as fallbackDebates, agents, agentById, type Debate } from "@/lib/swarm";
 import { AgentAvatar, PageHeading, a } from "@/components/ui";
 
 const FILTERS = ["todos", "en curso", "cerrado", "decisión"] as const;
@@ -14,26 +22,74 @@ const STATUS_STYLE: Record<Debate["status"], string> = {
   decisión: "border-purple-500/40 bg-purple-500/10 text-purple-300",
 };
 
+function rel(iso: string) {
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return iso;
+  const s = Math.max(0, Math.floor((Date.now() - t) / 1000));
+  if (s < 60) return `hace ${s} s`;
+  if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
+  return `hace ${Math.floor(s / 86400)} d`;
+}
+
 export default function DirectorioPage() {
   const [filter, setFilter] = useState<Filter>("todos");
   const [selected, setSelected] = useState<string | null>(null);
+  const [live, setLive] = useState<Debate[] | null>(null);
+  const [source, setSource] = useState<"vivo" | "static">("vivo");
+
+  useEffect(() => {
+    fetch("/api/swarm/debates")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (j && Array.isArray(j.debates) && j.debates.length) {
+          setLive(j.debates);
+          setSource("vivo");
+        }
+        // si el blackboard no trae más, se queda el espejo estático del mismo canal
+      })
+      .catch(() => setSource("static"));
+  }, []);
+
+  const list = live ?? fallbackDebates;
 
   const filtered = useMemo(
-    () => (filter === "todos" ? debates : debates.filter((d) => d.status === filter)),
-    [filter]
+    () => (filter === "todos" ? list : list.filter((d) => d.status === filter)),
+    [filter, list]
   );
 
   const active = selected
-    ? debates.find((d) => d.id === selected) ?? filtered[0]
+    ? list.find((d) => d.id === selected) ?? filtered[0]
     : filtered[0];
 
   return (
     <div className="animate-fade-in">
       <PageHeading
         emoji="💬"
-        title="Sala de Directorio / Live Debates"
-        subtitle="Deliberaciones y consultas cruzadas recientes entre los agentes del holding."
+        title="Sala de Directorio / Pizarra del Holding"
+        subtitle="Blackboard compartido: mensajes, consultas y decisiones entre agentes del holding (espejo de blackboard.json)."
       />
+
+      {/* estado del canal / pizarra */}
+      <div className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/40 px-4 py-3">
+        <Radio className="h-4 w-4 animate-pulse text-emerald-400" />
+        <span className="text-xs text-slate-300">
+          Canal <span className="font-mono text-emerald-300">sala-de-directorio</span>
+        </span>
+        <span className="text-slate-600">·</span>
+        <span className="text-xs text-slate-400">
+          {list.length} entradas en la pizarra{source === "vivo" ? " · sincronizado con /api/swarm/debates" : ""}
+        </span>
+        <span className="ml-auto flex items-center gap-1.5">
+          {list
+            .filter((d) => d.status === "en curso")
+            .map((d) => (
+              <span key={d.id} className="chip border-cyan-500/40 bg-cyan-500/10 text-cyan-300">
+                {d.participantsEmoji.join("+")}
+              </span>
+            ))}
+        </span>
+      </div>
 
       {/* filter tabs */}
       <div className="mb-5 flex flex-wrap items-center gap-2">
@@ -46,16 +102,14 @@ export default function DirectorioPage() {
             }}
             className={`rounded-lg border px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
               filter === f
-                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"
+                ? "border-gold-500/50 bg-gold-500/10 text-gold-300"
                 : "border-slate-700 bg-slate-800/50 text-slate-400 hover:text-slate-200"
             }`}
           >
             {f}
           </button>
         ))}
-        <span className="ml-auto font-mono text-xs text-slate-500">
-          {filtered.length} debate(s)
-        </span>
+        <span className="ml-auto font-mono text-xs text-slate-500">{filtered.length} entrada(s)</span>
       </div>
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
@@ -68,13 +122,13 @@ export default function DirectorioPage() {
               <button
                 key={d.id}
                 onClick={() => setSelected(d.id)}
-                className={`glass w-full p-4 text-left transition-all ${isSel ? "border-emerald-500/50 shadow-glow" : ""}`}
+                className={`glass w-full p-4 text-left transition-all ${isSel ? "border-gold-500/50 shadow-glow-gold" : ""}`}
               >
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <span className={`chip ${c}`}>{d.status}</span>
                   <span className="flex items-center gap-1 font-mono text-[11px] text-slate-500">
                     <Timer className="h-3 w-3" />
-                    {d.timestamp}
+                    {d.ts ? rel(d.ts) : d.timestamp}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -87,7 +141,7 @@ export default function DirectorioPage() {
           })}
         </div>
 
-        {/* detail */}
+        {/* detalle */}
         <div className="glass flex flex-col p-5 lg:col-span-3">
           {active ? (
             <>
@@ -96,11 +150,21 @@ export default function DirectorioPage() {
                   <span className={`chip ${STATUS_STYLE[active.status]}`}>{active.status}</span>
                   <h3 className="mt-2 text-lg font-bold text-white">{active.title}</h3>
                   <div className="mt-1 text-sm text-slate-400">{active.topic}</div>
+                  <div className="mt-1 flex items-center gap-1 font-mono text-[11px] text-slate-500">
+                    <Timer className="h-3 w-3" />
+                    {active.ts ? `${rel(active.ts)} · ${new Date(active.ts).toLocaleString("es-CL")}` : active.timestamp}
+                  </div>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   {active.participants.map((id) => {
                     const ag = agents.find((x) => x.id === id)!;
-                    return <AgentAvatar key={id} agent={ag} pulse />;
+                    const col = a(ag?.color ?? "emerald");
+                    return (
+                      <div key={id} title={ag?.name ?? id}>
+                        {ag ? <AgentAvatar agent={ag} pulse /> : <span className="chip">{id}</span>}
+                        <span className={`sr-only ${col.text}`} />
+                      </div>
+                    );
                   })}
                 </div>
               </div>
@@ -111,7 +175,7 @@ export default function DirectorioPage() {
                   Consulta cruzada entre{" "}
                   <span className="text-cyan-300">
                     {active.participants
-                      .map((id) => agents.find((x) => x.id === id)?.name)
+                      .map((id) => agentById(id)?.name ?? id)
                       .join(" + ")}
                   </span>
                 </span>
@@ -120,19 +184,20 @@ export default function DirectorioPage() {
               {/* transcript */}
               <div className="mb-5 space-y-3">
                 {active.participants.map((id, idx) => {
-                  const ag = agents.find((x) => x.id === id)!;
-                  const c = a(ag.color);
+                  const ag = agentById(id);
+                  if (!ag) return null;
+                  const col = a(ag.color);
                   return (
                     <div key={id} className="flex items-start gap-3">
                       <AgentAvatar agent={ag} size="sm" />
                       <div className="flex-1">
-                        <div className={`mb-1 text-xs font-semibold ${c.text}`}>
-                          {ag.name} · {ag.role.split("&")[0].trim()}
+                        <div className={`mb-1 text-xs font-semibold ${col.text}`}>
+                          {ag.name} · {ag.role.split("·")[0].trim()}
                         </div>
                         <div className="glass-strong rounded-xl rounded-tl-sm p-3 text-sm text-slate-300">
                           {idx === 0
                             ? `"Consulta inicial: necesito revisión sobre ${active.topic.toLowerCase()}."`
-                            : `"Recibido, ${ag.name === "Felipe" ? "Matías" : "Valentina"}. Estimo el impacto y propongo acciones. Adjunto propuesta de mitigación y siguientes pasos."`}
+                            : `"Recibido. Estimo el impacto y propongo acciones. Adjunto propuesta de mitigación y siguientes pasos conservando mi fuente única."`}
                         </div>
                       </div>
                     </div>
@@ -141,9 +206,7 @@ export default function DirectorioPage() {
               </div>
 
               <div className="mb-3">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Resumen
-                </div>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Resumen</div>
                 <p className="text-sm leading-relaxed text-slate-300">{active.summary}</p>
               </div>
 
@@ -169,7 +232,7 @@ export default function DirectorioPage() {
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center py-16 text-center">
               <MessageSquareText className="mb-3 h-10 w-10 text-slate-600" />
-              <p className="text-slate-400">No hay debates en este filtro.</p>
+              <p className="text-slate-400">No hay entradas en este filtro.</p>
             </div>
           )}
         </div>

@@ -50,6 +50,22 @@ export const accent: Record<string, Record<string, string>> = {
     solid: "bg-orange-400/90",
     shadow: "shadow-glow",
   },
+  rose: {
+    text: "text-rose-300",
+    bg: "bg-rose-500/10",
+    border: "border-rose-500/40",
+    ring: "ring-rose-400/40",
+    solid: "bg-rose-400/90",
+    shadow: "shadow-glow-rose",
+  },
+  indigo: {
+    text: "text-indigo-300",
+    bg: "bg-indigo-500/10",
+    border: "border-indigo-500/40",
+    ring: "ring-indigo-400/40",
+    solid: "bg-indigo-400/90",
+    shadow: "shadow-glow-indigo",
+  },
 };
 
 export const a = (color: string) =>

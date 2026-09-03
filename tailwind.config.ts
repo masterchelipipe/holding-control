@@ -18,11 +18,19 @@ const config: Config = {
           cyan: "#22d3ee",
           purple: "#a78bfa",
         },
+        gold: {
+          300: "#f0d070",
+          400: "#d4af37",
+          500: "#c19a2e",
+        },
       },
       boxShadow: {
         glow: "0 0 25px 0 rgba(16, 185, 129, 0.15)",
         "glow-cyan": "0 0 25px 0 rgba(34, 211, 238, 0.15)",
         "glow-purple": "0 0 25px 0 rgba(167, 139, 250, 0.15)",
+        "glow-rose": "0 0 25px 0 rgba(244, 63, 94, 0.15)",
+        "glow-indigo": "0 0 25px 0 rgba(99, 102, 241, 0.18)",
+        "glow-gold": "0 0 28px 0 rgba(212, 175, 55, 0.25)",
       },
       fontFamily: {
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
