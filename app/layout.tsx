@@ -27,7 +27,7 @@ export default function RootLayout({
                 <span className="text-emerald-400">{agents.length} agentes activos</span>{" "}
                 · <span className="text-gold-400">Don Gonzalo → Lorenzo</span>
               </span>
-              <span className="font-mono">Desplegado por Don Gonzalo's Executive Team</span>
+              <span className="font-mono">Desplegado por Don Gonzalo&apos;s Executive Team</span>
             </div>
           </footer>
         </div>
