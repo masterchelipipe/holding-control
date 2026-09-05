@@ -159,20 +159,22 @@ export const agents: Agent[] = [
   // ---------- NIVEL 2 · STAFF TRADING ----------
   {
     id: "matias",
-    name: "Matías",
+    name: "MATÍAS-TRADING 强化",
     emoji: "📈",
     role: "Head of Quantitative Trading · Dirección Trading",
     color: "purple",
     division: "TRADING",
     level: 2,
     reportsTo: ["lorenzo"],
-    tagline: "Alpaca API · Overnight Tech/IA · Core Long · Filtro Cornejo · riesgo.",
+    tagline: "Alpaca API · Overnight Tech/IA · Core Long · Filtro Cornejo · riesgo. Supervisión 30 min + cierre diario CLT.",
     status: "active",
-    coreSkills: ["Alpaca API", "Overnight Tech/IA", "Core Long", "Filtro Cornejo", "Risk Control"],
+    coreSkills: ["Alpaca API", "Overnight Tech/IA", "Core Long", "Filtro Cornejo", "Risk Control", "Supervisión 30 min", "Cierre diario CLT"],
     responsibilities: [
       "Opera la estrategia Overnight Tech/IA y Core Long",
       "Monitorea trailing stops al 5% y stops al 3%",
       "Audita métricas de rendimiento y drawdown",
+      "Supervisa TODOS los crons de trading cada 30 min en hora CLT",
+      "Entrega cierre diario CLT con estado real de la cartera",
     ],
     projects: ["TradeX", "Alpaca Portfolio"],
     connectedChannels: [
@@ -203,21 +205,22 @@ export const agents: Agent[] = [
     connectedChannels: [{ name: "Design System", kind: "worksheets", connected: true }],
   },
   {
-    id: "dipac",
-    name: "DIPAC",
+    id: "sebastian",
+    name: "Sebastián",
     emoji: "✍️",
     role: "Copywriter Publicitario · Staff Creative",
     color: "amber",
     division: "CREATIVE",
     level: 2,
     reportsTo: ["lorenzo", "valentina"],
-    tagline: "Copywriter publicitario especialista Terranova · publicidad & conversion.",
+    tagline: "Copywriter publicitario especialista Terranova · (antes DIPAC) · publicidad & conversion.",
     status: "active",
     coreSkills: ["Copywriter Ads", "Landing Pages", "CTA & Conversión", "Marketplace Copy"],
     responsibilities: [
       "Redacción publicitaria para Terranova y MasterRent",
       "Copys de marketplace (Facebook/Instagram) con formato aprobado",
       "Filtro de intención de compra (anti-cliente-chico)",
+      "Entrega semanal de copys — lunes 09:00 CLT",
     ],
     projects: ["Terranova Ads", "Marketplace MasterRent", "Landing Pages"],
     connectedChannels: [
@@ -304,13 +307,14 @@ export const agents: Agent[] = [
     division: "TERRANOVA",
     level: 3,
     reportsTo: ["lorenzo", "rodrigo"],
-    tagline: "Scrapling · Bypass Cloudflare · Mercado Público · Búsqueda Profunda.",
+    tagline: "Scrapling · Bypass Cloudflare · Mercado Público · Búsqueda Profunda · Vigilancia nocturna de remates.",
     status: "active",
-    coreSkills: ["Scrapling", "Stealth Scraping", "Bypass Cloudflare", "Mercado Público", "OSINT"],
+    coreSkills: ["Scrapling", "Stealth Scraping", "Bypass Cloudflare", "Mercado Público", "OSINT", "Remates nocturnos"],
     responsibilities: [
       "Extracción de datos de proveedores, precios y licitaciones",
       "Búsqueda profunda de información técnica y financiera",
       "Radar de licitaciones para Terranova",
+      "Vigilancia nocturna de remates judiciales/vehiculares — pasadas 23:00 / 02:00 / 05:00 CLT",
     ],
     projects: ["Mercado Público / ChileCompra", "Scraping Precios", "Radar Financiero"],
     connectedChannels: [
@@ -442,6 +446,26 @@ export const agents: Agent[] = [
     ],
     projects: ["MasterRent · DTE SII"],
     connectedChannels: [{ name: "SII", kind: "portals", connected: true }],
+  },
+  {
+    id: "rosa",
+    name: "Rosa",
+    emoji: "💌",
+    role: "Cobranza MasterRent · Tanda 2",
+    color: "cyan",
+    division: "MASTERRENT",
+    level: 3,
+    reportsTo: ["felipe-db"],
+    isStaff: true,
+    tagline: "Cobranza de arriendos — tanda 2. POR MONTAR.",
+    status: "standby",
+    coreSkills: ["Cobranza", "Seguimiento de mora", "Comunicación de clientes"],
+    responsibilities: [
+      "Gestión de cobranza de arriendos MasterRent (tanda 2)",
+      "POR MONTAR — agente aún no configurado/en producción",
+    ],
+    projects: ["MasterRent · Cobranza"],
+    connectedChannels: [{ name: "Hoja Mora", kind: "worksheets", connected: false }],
   },
 
   // ---------- NIVEL 3 · SUBAGENTES STAFF V2 · TERRANOVA ----------
@@ -579,7 +603,7 @@ export const debates: Debate[] = [
     timestamp: "hace 45 min",
     ts: "2026-09-03T11:05:00-04:00",
     summary:
-      "Valentina pidió el proofing técnico de los radieres; Rodrigo entregó dosificaciones, espesores y tiempos de curado para que el guion no exagere garantías. DIPAC redactó el copy aprobado.",
+      "Valentina pidió el proofing técnico de los radieres; Rodrigo entregó dosificaciones, espesores y tiempos de curado para que el guion no exagere garantías. Sebastián (anter. DIPAC) redactó el copy aprobado.",
     insights: [
       "Usar 'dosificación certificada' en el copy.",
       "Rodrigo aprobará el guion final antes de publicación.",
@@ -622,12 +646,12 @@ export const debates: Debate[] = [
     title: "Nuevo copy de marketplace para el radier",
     topic: "Copy publicitario aprobado para Facebook/Instagram del proyecto de radieres.",
     status: "decisión",
-    participants: ["dipac", "valentina"],
+    participants: ["sebastian", "valentina"],
     participantsEmoji: ["✍️", "📣"],
     timestamp: "hace 1 h",
     ts: "2026-09-03T10:15:00-04:00",
     summary:
-      "DIPAC redactó el copy con formato de marketplace aprobado, filtrando por intención de compra real. Valentina lo aprobó para pauta Google/Meta.",
+      "Sebastián redactó el copy con formato de marketplace aprobado, filtrando por intención de compra real. Valentina lo aprobó para pauta Google/Meta.",
     insights: [
       "Copy con CTA de conversión y cifras de dosificación certificada.",
       "Filtro de intención de compra aplicado (anti-cliente-chico).",
@@ -859,8 +883,8 @@ export function simulateDispatch(prompt: string): DispatchResult {
           estimatedCost: "$0.0002 USD",
         },
         {
-          agentId: "dipac",
-          agentName: "DIPAC",
+          agentId: "sebastian",
+          agentName: "Sebastián",
           agentEmoji: "✍️",
           action: "Campaña Publicitaria & Copy",
           detail: "Redacción de copys persuasivos con intención de compra y montaje del reel.",
@@ -869,7 +893,7 @@ export function simulateDispatch(prompt: string): DispatchResult {
         },
       ],
       supervisorCheck: "Harness: Parámetros técnicos contrastados con normativa OGUC.",
-      summary: "Especificación técnica de Rodrigo entregada a DIPAC/Valentina para marketing.",
+      summary: "Especificación técnica de Rodrigo entregada a Sebastián/Valentina para marketing.",
     };
   }
 

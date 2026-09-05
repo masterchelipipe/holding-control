@@ -194,7 +194,7 @@ export default function OrganigramaPage() {
                       </span>
                     )}
                     {ss.map((s) => (
-                      <AgentNode key={s.id} agent={s} size="sm" dim={dimAgent(s.id)} onHover={setHover} tag={s.isStaff ? "staff" : undefined} />
+                      <AgentNode key={s.id} agent={s} size="sm" dim={dimAgent(s.id)} onHover={setHover} tag={s.status === "standby" ? "por montar" : s.isStaff ? "staff" : undefined} />
                     ))}
                   </div>
                   <div className="mt-1 text-center text-[10px] text-slate-500">{div.purpose}</div>

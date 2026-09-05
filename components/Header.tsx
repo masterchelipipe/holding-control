@@ -9,6 +9,7 @@ import {
   MessageSquareText,
   Network,
   Radio,
+  TrendingUp,
 } from "lucide-react";
 import { agents, owner } from "@/lib/swarm";
 import { NexusLogo } from "@/components/Logo";
@@ -31,6 +32,12 @@ const NAV = [
     label: "Matriz de Proyectos",
     emoji: "📁",
     icon: Layers3,
+  },
+  {
+    href: "/trading",
+    label: "Cartera Trading",
+    emoji: "📈",
+    icon: TrendingUp,
   },
   {
     href: "/consola",
